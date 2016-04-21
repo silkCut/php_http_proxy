@@ -172,9 +172,20 @@ PHP_MINIT_FUNCTION(anprox)
 	REGISTER_INI_ENTRIES();
 
 	//init output info
+	/*
 	ALLOC_ZVAL(ANPROX_G(output));
 	array_init(ANPROX_G(output));
 	INIT_PZVAL(ANPROX_G(output));
+	*/
+
+	/*
+	zval **input_server;
+	input_server = ap_ori_input(ZEND_STRL("_SERVER"));
+	//zval* input_env = ap_ori_input(ZEND_STRL("_ENV"));
+	//php_autoglobal_merge(Z_ARRVAL_P(input_server), Z_ARRVAL_P(input_env));
+	ANPROX_G(server) = Z_ARRVAL_PP(input_server);
+	set_var_to_gal();
+	*/
 	return SUCCESS;
 }
 /* }}} */
@@ -185,7 +196,7 @@ PHP_MSHUTDOWN_FUNCTION(anprox)
 {
 	/* uncomment this line if you have INI entries*/
 	UNREGISTER_INI_ENTRIES();
-	zval_ptr_dtor(&ANPROX_G(output));
+	//zval_ptr_dtor(&ANPROX_G(output));
 	return SUCCESS;
 }
 /* }}} */
@@ -196,6 +207,9 @@ PHP_MSHUTDOWN_FUNCTION(anprox)
 PHP_RINIT_FUNCTION(anprox)
 {
 	zval **input_server;
+	ALLOC_ZVAL(ANPROX_G(output));
+	array_init(ANPROX_G(output));
+	INIT_PZVAL(ANPROX_G(output));
 	input_server = ap_ori_input(ZEND_STRL("_SERVER"));
 	//zval* input_env = ap_ori_input(ZEND_STRL("_ENV"));
 	//php_autoglobal_merge(Z_ARRVAL_P(input_server), Z_ARRVAL_P(input_env));
@@ -210,6 +224,7 @@ PHP_RINIT_FUNCTION(anprox)
  */
 PHP_RSHUTDOWN_FUNCTION(anprox)
 {
+	zval_ptr_dtor(&ANPROX_G(output));
 	return SUCCESS;
 }
 
