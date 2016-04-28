@@ -1,0 +1,13 @@
+[28-Apr-2016 12:29:30 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:30 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:31 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:31 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:36 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:36 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:36 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:29:36 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:30:08 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:30:08 UTC] PHP Warning:  Unknown: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in Unknown on line 0
+[28-Apr-2016 12:30:57 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0
+[28-Apr-2016 12:30:57 UTC] PHP Warning:  Unknown: It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in Unknown on line 0
+[28-Apr-2016 12:31:05 UTC] PHP Warning:  PHP Startup: Invalid library (maybe not a PHP library) 'anproxy.so' in Unknown on line 0

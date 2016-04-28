@@ -25,14 +25,14 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_anprox.h"
+#include "php_anproxy.h"
 
 #define DEFAULT_TRUST_PROXY "127.0.0.1"
 #define REMOTE_ADDR   "REMOTE_ADDR"
 
-/* If you declare any globals in php_anprox.h uncomment this:
+/* If you declare any globals in php_anproxy.h uncomment this:
  */
-ZEND_DECLARE_MODULE_GLOBALS(anprox)
+ZEND_DECLARE_MODULE_GLOBALS(anproxy)
 
 /* Map the input and standed input
  */
@@ -53,7 +53,7 @@ static i_to_s itos_map[] = {
  */
 /* Remove comments and fill if you need to have entries in php.ini*/
 PHP_INI_BEGIN()
-    STD_PHP_INI_ENTRY("anprox.trust_proxies", DEFAULT_TRUST_PROXY, PHP_INI_ALL, OnUpdateString, trust_proxies, zend_anprox_globals, anprox_globals)
+    STD_PHP_INI_ENTRY("anproxy.trust_proxies", DEFAULT_TRUST_PROXY, PHP_INI_ALL, OnUpdateString, trust_proxies, zend_anproxy_globals, anproxy_globals)
 PHP_INI_END()
 /* }}} */
 
@@ -66,20 +66,20 @@ PHP_INI_END()
 PHP_FUNCTION(get_proxy_info)
 {
 	zval** remote_addr;
-	char *trust_proxies = "127.0.0.1";
+	char *trust_proxies = DEFAULT_TRUST_PROXY;
 	int proxies_len = strlen(trust_proxies);
 	long result;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|s", &trust_proxies, &proxies_len) == FAILURE ) {
 		RETURN_NULL();
 	} else {
-		if (zend_hash_find(Z_ARRVAL_P(ANPROX_G(output)), ZEND_STRS(REMOTE_ADDR), /*REMOTE_ADDR, strlen(REMOTE_ADDR) +1,*/ (void **)&remote_addr) == FAILURE) {
+		if (zend_hash_find(Z_ARRVAL_P(ANPROXY_G(output)), ZEND_STRS(REMOTE_ADDR), /*REMOTE_ADDR, strlen(REMOTE_ADDR) +1,*/ (void **)&remote_addr) == FAILURE) {
 			RETURN_NULL();
 		}
 		if (result = strcmp(Z_STRVAL_PP(remote_addr), trust_proxies) != 0) {
 			RETURN_NULL();
 		}
-		RETVAL_ZVAL(ANPROX_G(output), 1, 0);
+		RETVAL_ZVAL(ANPROXY_G(output), 1, 0);
 		return;
 	}
 }
@@ -111,13 +111,13 @@ static void set_var_to_gal()
 		char *input = itos_map[i].input;
 		char *output = itos_map[i].standed;
 		
-		if (zend_hash_find(ANPROX_G(server), input, strlen(input) + 1, (void **)&val) == SUCCESS)
+		if (zend_hash_find(ANPROXY_G(server), input, strlen(input) + 1, (void **)&val) == SUCCESS)
 		{
-			zend_hash_update(Z_ARRVAL_P(ANPROX_G(output)), output, strlen(output) + 1, val, sizeof(zval), NULL);
+			zend_hash_update(Z_ARRVAL_P(ANPROXY_G(output)), output, strlen(output) + 1, val, sizeof(zval), NULL);
 		} 
 	} 	
-		//zend_hash_apply_with_arguments((ANPROX_G(server)) TSRMLS_DC, (apply_func_args_t)php_sample_print_zval, 2);
-	   //zend_hash_apply_with_arguments(Z_ARRVAL_P(ANPROX_G(output)) TSRMLS_DC, (apply_func_args_t)php_sample_print_zval, 2);
+		//zend_hash_apply_with_arguments((ANPROXY_G(server)) TSRMLS_DC, (apply_func_args_t)php_sample_print_zval, 2);
+	   //zend_hash_apply_with_arguments(Z_ARRVAL_P(ANPROXY_G(output)) TSRMLS_DC, (apply_func_args_t)php_sample_print_zval, 2);
 }
 
 static int php_sample_print_zval(zval **val TSRMLS_DC, int num_args, va_list args, zend_hash_key *hash_key)
@@ -154,28 +154,28 @@ static int php_sample_print_zval(zval **val TSRMLS_DC, int num_args, va_list arg
    follow this convention for the convenience of others editing your code.
 */
 
-/* {{{ php_anprox_init_globals
+/* {{{ php_anproxy_init_globals
  */
 /* Uncomment this function if you have INI entries
-static void php_anprox_init_globals(zend_anprox_globals *anprox_globals)
+static void php_anproxy_init_globals(zend_anproxy_globals *anproxy_globals)
 {
-	anprox_globals->global_value = 0;
-	anprox_globals->global_string = NULL;
+	anproxy_globals->global_value = 0;
+	anproxy_globals->global_string = NULL;
 }
 */
 /* }}} */
 
 /* {{{ PHP_MINIT_FUNCTION Get All Input Info
  */
-PHP_MINIT_FUNCTION(anprox)
+PHP_MINIT_FUNCTION(anproxy)
 {
 	REGISTER_INI_ENTRIES();
 
 	//init output info
 	/*
-	ALLOC_ZVAL(ANPROX_G(output));
-	array_init(ANPROX_G(output));
-	INIT_PZVAL(ANPROX_G(output));
+	ALLOC_ZVAL(ANPROXY_G(output));
+	array_init(ANPROXY_G(output));
+	INIT_PZVAL(ANPROXY_G(output));
 	*/
 
 	/*
@@ -183,7 +183,7 @@ PHP_MINIT_FUNCTION(anprox)
 	input_server = ap_ori_input(ZEND_STRL("_SERVER"));
 	//zval* input_env = ap_ori_input(ZEND_STRL("_ENV"));
 	//php_autoglobal_merge(Z_ARRVAL_P(input_server), Z_ARRVAL_P(input_env));
-	ANPROX_G(server) = Z_ARRVAL_PP(input_server);
+	ANPROXY_G(server) = Z_ARRVAL_PP(input_server);
 	set_var_to_gal();
 	*/
 	return SUCCESS;
@@ -192,11 +192,11 @@ PHP_MINIT_FUNCTION(anprox)
 
 /* {{{ PHP_MSHUTDOWN_FUNCTION
  */
-PHP_MSHUTDOWN_FUNCTION(anprox)
+PHP_MSHUTDOWN_FUNCTION(anproxy)
 {
 	/* uncomment this line if you have INI entries*/
 	UNREGISTER_INI_ENTRIES();
-	//zval_ptr_dtor(&ANPROX_G(output));
+	//zval_ptr_dtor(&ANPROXY_G(output));
 	return SUCCESS;
 }
 /* }}} */
@@ -204,16 +204,16 @@ PHP_MSHUTDOWN_FUNCTION(anprox)
 /* Remove if there's nothing to do at request start */
 /* {{{ PHP_RINIT_FUNCTION
  */
-PHP_RINIT_FUNCTION(anprox)
+PHP_RINIT_FUNCTION(anproxy)
 {
 	zval **input_server;
-	ALLOC_ZVAL(ANPROX_G(output));
-	array_init(ANPROX_G(output));
-	INIT_PZVAL(ANPROX_G(output));
+	ALLOC_ZVAL(ANPROXY_G(output));
+	array_init(ANPROXY_G(output));
+	INIT_PZVAL(ANPROXY_G(output));
 	input_server = ap_ori_input(ZEND_STRL("_SERVER"));
 	//zval* input_env = ap_ori_input(ZEND_STRL("_ENV"));
 	//php_autoglobal_merge(Z_ARRVAL_P(input_server), Z_ARRVAL_P(input_env));
-	ANPROX_G(server) = Z_ARRVAL_PP(input_server);
+	ANPROXY_G(server) = Z_ARRVAL_PP(input_server);
 	set_var_to_gal();
 	return SUCCESS;
 }
@@ -222,9 +222,9 @@ PHP_RINIT_FUNCTION(anprox)
 /* Remove if there's nothing to do at request end */
 /* {{{ PHP_RSHUTDOWN_FUNCTION
  */
-PHP_RSHUTDOWN_FUNCTION(anprox)
+PHP_RSHUTDOWN_FUNCTION(anproxy)
 {
-	zval_ptr_dtor(&ANPROX_G(output));
+	zval_ptr_dtor(&ANPROXY_G(output));
 	return SUCCESS;
 }
 
@@ -232,10 +232,10 @@ PHP_RSHUTDOWN_FUNCTION(anprox)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(anprox)
+PHP_MINFO_FUNCTION(anproxy)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "anprox support", "enabled");
+	php_info_print_table_header(2, "anproxy support", "enabled");
 	php_info_print_table_end();
 
 	/* Remove comments if you have entries in php.ini
@@ -249,34 +249,34 @@ PHP_MINFO_FUNCTION(anprox)
 	ZEND_END_ARG_INFO ()
 #endif /* PHP >= 5.1.0 */
 
-/* {{{ anprox_functions[]
+/* {{{ anproxy_functions[]
  *
- * Every user visible function must have an entry in anprox_functions[].
+ * Every user visible function must have an entry in anproxy_functions[].
  */
-const zend_function_entry anprox_functions[] = {
+const zend_function_entry anproxy_functions[] = {
 	PHP_FE(get_proxy_info, return_by_ref_arginfo)		
-	PHP_FE_END	/* Must be the last line in anprox_functions[] */
+	PHP_FE_END	/* Must be the last line in anproxy_functions[] */
 };
 /* }}} */
 
-/* {{{ anprox_module_entry
+/* {{{ anproxy_module_entry
  */
-zend_module_entry anprox_module_entry = {
+zend_module_entry anproxy_module_entry = {
 	STANDARD_MODULE_HEADER,
-	"anprox",
-	anprox_functions,
-	PHP_MINIT(anprox),
-	PHP_MSHUTDOWN(anprox),
-	PHP_RINIT(anprox),		/* Replace with NULL if there's nothing to do at request start */
-	PHP_RSHUTDOWN(anprox),	/* Replace with NULL if there's nothing to do at request end */
-	PHP_MINFO(anprox),
-	PHP_ANPROX_VERSION,
+	"anproxy",
+	anproxy_functions,
+	PHP_MINIT(anproxy),
+	PHP_MSHUTDOWN(anproxy),
+	PHP_RINIT(anproxy),		/* Replace with NULL if there's nothing to do at request start */
+	PHP_RSHUTDOWN(anproxy),	/* Replace with NULL if there's nothing to do at request end */
+	PHP_MINFO(anproxy),
+	PHP_ANPROXY_VERSION,
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_ANPROX
-ZEND_GET_MODULE(anprox)
+#ifdef COMPILE_DL_ANPROXY
+ZEND_GET_MODULE(anproxy)
 #endif
 
 /*

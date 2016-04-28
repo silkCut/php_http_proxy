@@ -18,20 +18,20 @@
 
 /* $Id$ */
 
-#ifndef PHP_ANPROX_H
-#define PHP_ANPROX_H
+#ifndef PHP_ANPROXY_H
+#define PHP_ANPROXY_H
 
-extern zend_module_entry anprox_module_entry;
-#define phpext_anprox_ptr &anprox_module_entry
+extern zend_module_entry anproxy_module_entry;
+#define phpext_anproxy_ptr &anproxy_module_entry
 
-#define PHP_ANPROX_VERSION "0.1.0" /* Replace with version number for your extension */
+#define PHP_ANPROXY_VERSION "0.1.0" /* Replace with version number for your extension */
 
 #ifdef PHP_WIN32
-#	define PHP_ANPROX_API __declspec(dllexport)
+#	define PHP_ANPROXY_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_ANPROX_API __attribute__ ((visibility("default")))
+#	define PHP_ANPROXY_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_ANPROX_API
+#	define PHP_ANPROXY_API
 #endif
 
 #ifdef ZTS
@@ -42,29 +42,29 @@ extern zend_module_entry anprox_module_entry;
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     
 */
-ZEND_BEGIN_MODULE_GLOBALS(anprox)
+ZEND_BEGIN_MODULE_GLOBALS(anproxy)
 	char *trust_proxies;
 	HashTable *server;
 	zval *output;
-ZEND_END_MODULE_GLOBALS(anprox)
+ZEND_END_MODULE_GLOBALS(anproxy)
 
 /* In every utility function you add that needs to use variables 
-   in php_anprox_globals, call TSRMLS_FETCH(); after declaring other 
+   in php_anproxy_globals, call TSRMLS_FETCH(); after declaring other 
    variables used by that function, or better yet, pass in TSRMLS_CC
    after the last function argument and declare your utility function
    with TSRMLS_DC after the last declared argument.  Always refer to
-   the globals in your function as ANPROX_G(variable).  You are 
+   the globals in your function as ANPROXY_G(variable).  You are 
    encouraged to rename these macros something shorter, see
    examples in any other php module directory.
 */
 
 #ifdef ZTS
-#define ANPROX_G(v) TSRMG(anprox_globals_id, zend_anprox_globals *, v)
+#define ANPROXY_G(v) TSRMG(anproxy_globals_id, zend_anproxy_globals *, v)
 #else
-#define ANPROX_G(v) (anprox_globals.v)
+#define ANPROXY_G(v) (anproxy_globals.v)
 #endif
 
-#endif	/* PHP_ANPROX_H */
+#endif	/* PHP_ANPROXY_H */
 
 
 /*

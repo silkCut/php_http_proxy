@@ -13,9 +13,9 @@ dnl [  --with-anprox             Include anprox support])
 
 dnl Otherwise use enable:
 
- PHP_ARG_ENABLE(anprox, whether to enable anprox support,
+ PHP_ARG_ENABLE(anproxy, whether to enable anprox support,
  Make sure that the comment is aligned:
- [  --enable-anprox           Enable anprox support])
+ [  --enable-anproxy           Enable anprox support])
 
 if test "$PHP_ANPROX" != "no"; then
   dnl Write more examples of tests here...
@@ -59,5 +59,5 @@ if test "$PHP_ANPROX" != "no"; then
   dnl
   dnl PHP_SUBST(ANPROX_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(anprox, anprox.c, $ext_shared)
+  PHP_NEW_EXTENSION(anproxy, anproxy.c, $ext_shared)
 fi
