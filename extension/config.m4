@@ -58,6 +58,9 @@ if test "$PHP_ANPROX" != "no"; then
   dnl ])
   dnl
   dnl PHP_SUBST(ANPROX_SHARED_LIBADD)
-
-  PHP_NEW_EXTENSION(anproxy, anproxy.c, $ext_shared)
+  dnl configure can not use ".." as a path
+  PHP_ANPROXY_COMMON_FILES="common/anproxy_str.c"
+  PHP_NEW_EXTENSION(anproxy, anproxy.c $PHP_ANPROXY_COMMON_FILES, $ext_shared)
+  ln -s $ext_srcdir/../common $ext_srcdir
+  PHP_ADD_INCLUDE($ext_srcdir/common)
 fi

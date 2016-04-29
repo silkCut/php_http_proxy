@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "anproxy_str.h"
 
 int str_token_count(char delimiter, char* str)
 {
@@ -59,6 +60,39 @@ void free_string_array(char** string_array, int len)
 	free(string_array);
 }
 
+int check_str_array_match(char* match, char delimiter, char* str)
+{
+	char** input;
+	char** tmp;
+	char* str_tmp;
+	int match_count;
+	unsigned short int is_match=0;
+	int i;
+	str_split(delimiter, str, &input, &match_count);
+	if (match_count == 0) {
+		if(strcmp(match, str) == 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	tmp=input;
+	for(i=0; i < match_count; i++){
+		str_tmp = *tmp;	
+#ifdef DEBUG_PRINT
+		printf("the match is %s, the tmp is %s\n", match, str_tmp);
+#else
+		if(strcmp(match,str_tmp) == 0) {
+			is_match = 1;
+			break;
+		}
+#endif
+		tmp++;
+	}
+	free_string_array(input, match_count);
+	return is_match;
+}
+
 
 void str_split(char delimiter, char* str, char*** output, int* count)
 {
@@ -78,7 +112,9 @@ void str_split(char delimiter, char* str, char*** output, int* count)
 		for (i = 0; i < *count; i++) {
 			char_size = end_pos - start_pos + 1;	
 			*tmp = (char *)malloc(sizeof(char) * char_size);
+#ifdef DEBUG_PRINT
 			printf("the char size at loop:%d, the char_size :%d, the output is %x \n", i, char_size, *tmp);
+#endif
 		    str_copy_by_start_end(*tmp, str, start_pos, end_pos);							
 			*tmp++;
 			start_pos = end_pos+1;

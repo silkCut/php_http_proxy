@@ -11,10 +11,9 @@ int main()
 #endif
 	char** output;
 	int count;
-	char* test = "adfadsfas,addsafa,asdfaf";
-	printf("the output adrr is %x \n", &output);	
-	str_split(',', test, &output, &count); 	
-	print_string_array(output, count);
-	free_string_array(output, count);
+	char* test = "11";
+	char* match="11";
+	printf("the adrr is match %d \n", check_str_array_match(match, ',', test));	
+
 	return 0;
 }

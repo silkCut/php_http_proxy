@@ -26,6 +26,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_anproxy.h"
+#include "anproxy_str.h"
 
 #define DEFAULT_TRUST_PROXY "127.0.0.1"
 #define REMOTE_ADDR   "REMOTE_ADDR"
@@ -69,6 +70,11 @@ PHP_FUNCTION(get_proxy_info)
 	char *trust_proxies = DEFAULT_TRUST_PROXY;
 	int proxies_len = strlen(trust_proxies);
 	long result;
+	char delimiter=','; 
+	char **string_array;
+	int match_result;
+	int string_array_count;
+	unsigned short int is_match=0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|s", &trust_proxies, &proxies_len) == FAILURE ) {
 		RETURN_NULL();
@@ -76,7 +82,8 @@ PHP_FUNCTION(get_proxy_info)
 		if (zend_hash_find(Z_ARRVAL_P(ANPROXY_G(output)), ZEND_STRS(REMOTE_ADDR), /*REMOTE_ADDR, strlen(REMOTE_ADDR) +1,*/ (void **)&remote_addr) == FAILURE) {
 			RETURN_NULL();
 		}
-		if (result = strcmp(Z_STRVAL_PP(remote_addr), trust_proxies) != 0) {
+		match_result = check_str_array_match(Z_STRVAL_PP(remote_addr), ',', trust_proxies);
+		if (match_result == 0) {
 			RETURN_NULL();
 		}
 		RETVAL_ZVAL(ANPROXY_G(output), 1, 0);

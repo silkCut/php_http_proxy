@@ -2,6 +2,7 @@
 #define __ANPROXY_STR_H
 #endif
 
+int check_str_array_match(char* match, char delimiter, char* str);
 int str_token_count(char delimiter, char* str);
 void str_copy_by_len(char* dest, const char* src, int len);
 void str_copy_by_start_end(char* dest, const char* src, int start, int end);
